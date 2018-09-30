@@ -30,9 +30,8 @@ namespace pwsAPI
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            var connection = "Data Source=pws.db";
-            services.AddDbContext<DataContext>
-                (options => options.UseSqlite(connection));
+            services.AddDbContext<DataContext>(options =>
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
