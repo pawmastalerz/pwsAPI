@@ -1,0 +1,14 @@
+C:\Users\Paweł\Desktop\PwS\pwsAPI\bin\Debug\netcoreapp2.1\pwsAPI.deps.json
+C:\Users\Paweł\Desktop\PwS\pwsAPI\bin\Debug\netcoreapp2.1\pwsAPI.runtimeconfig.json
+C:\Users\Paweł\Desktop\PwS\pwsAPI\bin\Debug\netcoreapp2.1\pwsAPI.runtimeconfig.dev.json
+C:\Users\Paweł\Desktop\PwS\pwsAPI\bin\Debug\netcoreapp2.1\pwsAPI.dll
+C:\Users\Paweł\Desktop\PwS\pwsAPI\bin\Debug\netcoreapp2.1\pwsAPI.pdb
+C:\Users\Paweł\Desktop\PwS\pwsAPI\obj\Debug\netcoreapp2.1\pwsAPI.csprojAssemblyReference.cache
+C:\Users\Paweł\Desktop\PwS\pwsAPI\obj\Debug\netcoreapp2.1\pwsAPI.csproj.CoreCompileInputs.cache
+C:\Users\Paweł\Desktop\PwS\pwsAPI\obj\Debug\netcoreapp2.1\pwsAPI.RazorAssemblyInfo.cache
+C:\Users\Paweł\Desktop\PwS\pwsAPI\obj\Debug\netcoreapp2.1\pwsAPI.RazorAssemblyInfo.cs
+C:\Users\Paweł\Desktop\PwS\pwsAPI\obj\Debug\netcoreapp2.1\pwsAPI.AssemblyInfoInputs.cache
+C:\Users\Paweł\Desktop\PwS\pwsAPI\obj\Debug\netcoreapp2.1\pwsAPI.AssemblyInfo.cs
+C:\Users\Paweł\Desktop\PwS\pwsAPI\obj\Debug\netcoreapp2.1\pwsAPI.RazorTargetAssemblyInfo.cache
+C:\Users\Paweł\Desktop\PwS\pwsAPI\obj\Debug\netcoreapp2.1\pwsAPI.dll
+C:\Users\Paweł\Desktop\PwS\pwsAPI\obj\Debug\netcoreapp2.1\pwsAPI.pdb
