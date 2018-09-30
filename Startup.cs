@@ -32,6 +32,8 @@ namespace pwsAPI
 
             services.AddDbContext<DataContext>(options =>
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            
+            services.AddScoped<IDataRepository, DataRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,5 +51,7 @@ namespace pwsAPI
             app.UseHttpsRedirection();
             app.UseMvc();
         }
+
+        
     }
 }
