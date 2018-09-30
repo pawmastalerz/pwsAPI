@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using pwsAPI.Data;
 using pwsAPI.Models;
 
 namespace pwsAPI
@@ -30,7 +31,7 @@ namespace pwsAPI
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             var connection = "Data Source=pws.db";
-            services.AddDbContext<EventContext>
+            services.AddDbContext<DataContext>
                 (options => options.UseSqlite(connection));
         }
 
