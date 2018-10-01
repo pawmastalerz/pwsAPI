@@ -17,7 +17,9 @@ namespace pwsAPI.Data
 
         public async Task<Event> GetLatestEvent()
         {
-            return await this.context.Events.FirstOrDefaultAsync();
+            return await this.context.Events
+                .OrderByDescending(p => p.CreatedAt)
+                .FirstOrDefaultAsync();
         }
     }
 }
