@@ -3,40 +3,48 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using pwsAPI.Data;
 
 namespace pwsAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class PostersController : ControllerBase
     {
-        // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        private readonly IDataRepository repo;
+
+        public PostersController(IDataRepository repo)
         {
-            return new string[] { "value1", "value2" };
+            this.repo = repo;
         }
 
-        // GET api/values/5
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            var postersToReturn = await this.repo.GetNewsPosters();
+            return Ok(postersToReturn);
+        }
+
+        // GET api/posters/5
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
             return "value";
         }
 
-        // POST api/values
+        // POST api/posters
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT api/values/5
+        // PUT api/posters/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/values/5
+        // DELETE api/posters/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

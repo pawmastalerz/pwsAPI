@@ -17,26 +17,25 @@ namespace pwsAPI.Migrations
                 .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("pwsAPI.Models.Event", b =>
+            modelBuilder.Entity("pwsAPI.Models.Poster", b =>
                 {
-                    b.Property<int>("EventId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Category");
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200);
 
                     b.Property<DateTime>("HappensAt");
 
-                    b.Property<string>("PhotoUrl");
+                    b.Property<string>("PosterPhotoUrl")
+                        .IsRequired();
 
-                    b.Property<string>("Title");
+                    b.HasKey("Id");
 
-                    b.HasKey("EventId");
-
-                    b.ToTable("Events");
+                    b.ToTable("Posters");
                 });
 #pragma warning restore 612, 618
         }

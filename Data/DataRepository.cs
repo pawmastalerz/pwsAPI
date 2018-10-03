@@ -15,11 +15,9 @@ namespace pwsAPI.Data
             this.context = context;
         }
 
-        public async Task<Event> GetLatestEvent()
+        public async Task<List<Poster>> GetNewsPosters()
         {
-            return await this.context.Events
-                .OrderByDescending(p => p.CreatedAt)
-                .FirstOrDefaultAsync();
+            return await this.context.Posters.ToListAsync();
         }
     }
 }

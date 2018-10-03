@@ -6,6 +6,6 @@ namespace pwsAPI.Data
 {
     public interface IDataRepository
     {
-        Task<Event> GetLatestEvent();
+        Task<List<Poster>> GetNewsPosters();
     }
 }
