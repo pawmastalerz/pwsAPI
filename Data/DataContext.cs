@@ -8,5 +8,6 @@ namespace pwsAPI.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         public DbSet<Poster> Posters { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
