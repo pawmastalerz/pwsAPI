@@ -20,7 +20,7 @@ namespace pwsAPI.Controllers
         }
 
         [HttpGet]
-        // [Authorize]
+        [Authorize]
         public IActionResult Get()
         {
             return Ok("Test passed");

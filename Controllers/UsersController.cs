@@ -35,10 +35,10 @@ namespace pwsAPI.Controllers
         }
  
         [AllowAnonymous]
-        [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody]UserDto userDto)
+        [HttpPost("login")]
+        public IActionResult Login([FromBody]UserDto userDto)
         {
-            var user = this.userService.Authenticate(userDto.Username, userDto.Password);
+            var user = this.userService.Login(userDto.Username, userDto.Password);
  
             if (user == null)
                 return Unauthorized();
