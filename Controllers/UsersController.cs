@@ -61,8 +61,6 @@ namespace pwsAPI.Controllers
  
             // return basic user info (without password) and token to store client side
             return Ok(new {
-                // Id = user.Id,
-                Username = user.Username,
                 Token = tokenString
             });
         }
