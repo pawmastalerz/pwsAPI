@@ -10,20 +10,20 @@ namespace pwsAPI.Services
     public interface IUserService
     {
         User Authenticate(string username, string password);
-        IEnumerable<User> GetAll();
+        // IEnumerable<User> GetAll();
         User GetById(int id);
         User Create(User user, string password);
         void Update(User user, string password = null);
-        void Delete(int id);
+        // void Delete(int id);
     }
  
     public class UserService : IUserService
     {
-        private DataContext _context;
+        private DataContext context;
  
         public UserService(DataContext context)
         {
-            _context = context;
+            this.context = context;
         }
  
         public User Authenticate(string username, string password)
@@ -31,10 +31,14 @@ namespace pwsAPI.Services
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
  
-            var user = _context.Users.SingleOrDefault(x => x.Username == username);
+            var user = this.context.Users.SingleOrDefault(x => x.Username == username);
  
             // check if username exists
             if (user == null)
+                return null;
+
+            // only one user
+            if (user.Username != "moderator")
                 return null;
  
             // check if password is correct
@@ -45,14 +49,14 @@ namespace pwsAPI.Services
             return user;
         }
  
-        public IEnumerable<User> GetAll()
-        {
-            return _context.Users;
-        }
+        // public IEnumerable<User> GetAll()
+        // {
+        //     return this.context.Users;
+        // }
  
         public User GetById(int id)
         {
-            return _context.Users.Find(id);
+            return this.context.Users.Find(id);
         }
  
         public User Create(User user, string password)
@@ -61,7 +65,7 @@ namespace pwsAPI.Services
             if (string.IsNullOrWhiteSpace(password))
                 throw new AppException("Password is required");
  
-            if (_context.Users.Any(x => x.Username == user.Username))
+            if (this.context.Users.Any(x => x.Username == user.Username))
                 throw new AppException("Username \"" + user.Username + "\" is already taken");
  
             byte[] passwordHash, passwordSalt;
@@ -70,15 +74,15 @@ namespace pwsAPI.Services
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
  
-            _context.Users.Add(user);
-            _context.SaveChanges();
+            this.context.Users.Add(user);
+            this.context.SaveChanges();
  
             return user;
         }
  
         public void Update(User userParam, string password = null)
         {
-            var user = _context.Users.Find(userParam.Id);
+            var user = this.context.Users.Find(userParam.Id);
  
             if (user == null)
                 throw new AppException("User not found");
@@ -86,7 +90,7 @@ namespace pwsAPI.Services
             if (userParam.Username != user.Username)
             {
                 // username has changed so check if the new username is already taken
-                if (_context.Users.Any(x => x.Username == userParam.Username))
+                if (this.context.Users.Any(x => x.Username == userParam.Username))
                     throw new AppException("Username " + userParam.Username + " is already taken");
             }
  
@@ -103,19 +107,19 @@ namespace pwsAPI.Services
                 user.PasswordSalt = passwordSalt;
             }
  
-            _context.Users.Update(user);
-            _context.SaveChanges();
+            this.context.Users.Update(user);
+            this.context.SaveChanges();
         }
  
-        public void Delete(int id)
-        {
-            var user = _context.Users.Find(id);
-            if (user != null)
-            {
-                _context.Users.Remove(user);
-                _context.SaveChanges();
-            }
-        }
+        // public void Delete(int id)
+        // {
+        //     var user = this.context.Users.Find(id);
+        //     if (user != null)
+        //     {
+        //         this.context.Users.Remove(user);
+        //         this.context.SaveChanges();
+        //     }
+        // }
  
         // private helper methods
  

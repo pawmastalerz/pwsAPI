@@ -20,31 +20,31 @@ namespace pwsAPI.Controllers
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private IUserService _userService;
-        private IMapper _mapper;
-        private readonly AppSettings _appSettings;
+        private IUserService userService;
+        private IMapper mapper;
+        private readonly AppSettings appSettings;
  
         public UsersController(
             IUserService userService,
             IMapper mapper,
             IOptions<AppSettings> appSettings)
         {
-            _userService = userService;
-            _mapper = mapper;
-            _appSettings = appSettings.Value;
+            this.userService = userService;
+            this.mapper = mapper;
+            this.appSettings = appSettings.Value;
         }
  
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody]UserDto userDto)
         {
-            var user = _userService.Authenticate(userDto.Username, userDto.Password);
+            var user = this.userService.Authenticate(userDto.Username, userDto.Password);
  
             if (user == null)
-                return BadRequest(new { message = "Nieprawidłowy login lub hasło" });
+                return Unauthorized();
  
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var key = Encoding.ASCII.GetBytes(this.appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[] 
@@ -71,12 +71,12 @@ namespace pwsAPI.Controllers
         public IActionResult Register([FromBody]UserDto userDto)
         {
             // map dto to entity
-            var user = _mapper.Map<User>(userDto);
+            var user = this.mapper.Map<User>(userDto);
  
             try
             {
                 // save 
-                _userService.Create(user, userDto.Password);
+                this.userService.Create(user, userDto.Password);
                 return Ok();
             } 
             catch(AppException ex)
@@ -89,16 +89,16 @@ namespace pwsAPI.Controllers
         // [HttpGet]
         // public IActionResult GetAll()
         // {
-        //     var users =  _userService.GetAll();
-        //     var userDtos = _mapper.Map<IList<UserDto>>(users);
+        //     var users =  this.userService.GetAll();
+        //     var userDtos = this.mapper.Map<IList<UserDto>>(users);
         //     return Ok(userDtos);
         // }
  
         // [HttpGet("{id}")]
         // public IActionResult GetById(int id)
         // {
-        //     var user =  _userService.GetById(id);
-        //     var userDto = _mapper.Map<UserDto>(user);
+        //     var user =  this.userService.GetById(id);
+        //     var userDto = this.mapper.Map<UserDto>(user);
         //     return Ok(userDto);
         // }
  
@@ -106,13 +106,13 @@ namespace pwsAPI.Controllers
         public IActionResult Update(int id, [FromBody]UserDto userDto)
         {
             // map dto to entity and set id
-            var user = _mapper.Map<User>(userDto);
+            var user = this.mapper.Map<User>(userDto);
             user.Id = id;
  
             try
             {
                 // save 
-                _userService.Update(user, userDto.Password);
+                this.userService.Update(user, userDto.Password);
                 return Ok();
             } 
             catch(AppException ex)
@@ -125,7 +125,7 @@ namespace pwsAPI.Controllers
         // [HttpDelete("{id}")]
         // public IActionResult Delete(int id)
         // {
-        //     _userService.Delete(id);
+        //     this.userService.Delete(id);
         //     return Ok();
         // }
     }
