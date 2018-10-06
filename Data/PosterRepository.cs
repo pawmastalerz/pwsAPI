@@ -6,11 +6,11 @@ using pwsAPI.Models;
 
 namespace pwsAPI.Data
 {
-    public class DataRepository : IDataRepository
+    public class PosterRepository : IPosterRepository
     {
         private readonly DataContext context;
 
-        public DataRepository(DataContext context)
+        public PosterRepository(DataContext context)
         {
             this.context = context;
         }
@@ -25,7 +25,7 @@ namespace pwsAPI.Data
         public async Task<List<Poster>> GetAllPosters()
         {
             return await this.context.Posters
-                .FromSql("SELECT * FROM pws.Posters ORDER BY HappensAt")
+                .FromSql("SELECT * FROM pws.Posters ORDER BY HappensAt DESC")
                 .ToListAsync();
         }
     }

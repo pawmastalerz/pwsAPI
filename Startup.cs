@@ -82,7 +82,7 @@ namespace pwsAPI
                 };
             });
 
-            services.AddScoped<IDataRepository, DataRepository>();
+            services.AddScoped<IPosterRepository, PosterRepository>();
             services.AddScoped<IUserService, UserService>();
         }
 

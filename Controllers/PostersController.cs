@@ -12,9 +12,9 @@ namespace pwsAPI.Controllers
     [ApiController]
     public class PostersController : ControllerBase
     {
-        private readonly IDataRepository repo;
+        private readonly IPosterRepository repo;
 
-        public PostersController(IDataRepository repo)
+        public PostersController(IPosterRepository repo)
         {
             this.repo = repo;
         }
