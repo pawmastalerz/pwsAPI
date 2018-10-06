@@ -51,7 +51,7 @@ namespace pwsAPI.Controllers
                 {
                     new Claim(ClaimTypes.Name, user.Id.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(30),
+                Expires = DateTime.UtcNow.AddMinutes(120),
                 NotBefore = DateTime.UtcNow,
                 // NotBefore = DateTime.UtcNow.AddSeconds(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
