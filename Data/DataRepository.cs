@@ -21,5 +21,12 @@ namespace pwsAPI.Data
                 .FromSql("SELECT * FROM pws.Posters WHERE HappensAt > now() ORDER BY HappensAt LIMIT 3")
                 .ToListAsync();
         }
+
+        public async Task<List<Poster>> GetAllPosters()
+        {
+            return await this.context.Posters
+                .FromSql("SELECT * FROM pws.Posters ORDER BY HappensAt")
+                .ToListAsync();
+        }
     }
 }

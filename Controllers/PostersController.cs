@@ -25,6 +25,13 @@ namespace pwsAPI.Controllers
             return Ok(postersToReturn);
         }
 
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAll()
+        {
+            var postersToReturn = await this.repo.GetAllPosters();
+            return Ok(postersToReturn);
+        }
+
         // GET api/posters/5
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
