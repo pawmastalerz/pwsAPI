@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using pwsAPI.Data;
 
@@ -25,6 +26,7 @@ namespace pwsAPI.Controllers
             return Ok(postersToReturn);
         }
 
+        [Authorize]
         [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
