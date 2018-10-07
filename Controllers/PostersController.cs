@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using pwsAPI.Data;
+using pwsAPI.Models;
 
 namespace pwsAPI.Controllers
 {
@@ -13,50 +15,69 @@ namespace pwsAPI.Controllers
     public class PostersController : ControllerBase
     {
         private readonly IPosterRepository repo;
+        private readonly IMapper mapper;
 
-        public PostersController(IPosterRepository repo)
+        public PostersController(IPosterRepository repo, IMapper mapper)
         {
+            this.mapper = mapper;
             this.repo = repo;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [Authorize]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPoster(int id)
+        {
+            var posterToReturn = await this.repo.GetPoster(id);
+            return Ok(posterToReturn);
+        }
+
+        [HttpGet("news")]
+        public async Task<IActionResult> GetNewsPosters()
         {
             var postersToReturn = await this.repo.GetNewsPosters();
-            return Ok(postersToReturn);
+
+            if (postersToReturn != null)
+                return Ok(postersToReturn);
+
+            throw new Exception($"Błąd pobierania plakatów do aktualności");
         }
 
         [Authorize]
         [HttpGet("all")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllPosters()
         {
             var postersToReturn = await this.repo.GetAllPosters();
-            return Ok(postersToReturn);
+
+            if (postersToReturn != null)
+                return Ok(postersToReturn);
+
+            throw new Exception($"Błąd pobierania listy plakatów");
         }
 
-        // GET api/posters/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        [Authorize]
+        [HttpPut]
+        public async Task<IActionResult> UpdatePoster(Poster poster)
         {
-            return "value";
+            var posterInRepo = await this.repo.GetPoster(poster.Id);
+            mapper.Map(poster, posterInRepo);
+
+            if (await this.repo.SaveAll())
+                return Ok();
+
+            throw new Exception($"Błąd aktualizacji plakatu o id: {poster.Id}");
         }
 
-        // POST api/posters
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/posters/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/posters/5
+        [Authorize]
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            var posterInRepo = await this.repo.GetPoster(id);
+            this.repo.Delete(posterInRepo);
+
+            if (await this.repo.SaveAll())
+                return NoContent();
+
+            throw new Exception($"Błąd usuwania plakatu o id: {id}");
         }
     }
 }

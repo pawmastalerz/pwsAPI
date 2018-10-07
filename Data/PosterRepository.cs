@@ -15,6 +15,13 @@ namespace pwsAPI.Data
             this.context = context;
         }
 
+        public async Task<Poster> GetPoster(int id)
+        {
+            var posterToReturn = await this.context.Posters
+                .FirstOrDefaultAsync(p => p.Id == id);
+            return posterToReturn;
+        }
+
         public async Task<List<Poster>> GetNewsPosters()
         {
             return await this.context.Posters
@@ -27,6 +34,16 @@ namespace pwsAPI.Data
             return await this.context.Posters
                 .FromSql("SELECT * FROM pws.Posters ORDER BY HappensAt DESC")
                 .ToListAsync();
+        }
+
+        public void Delete<T>(T entity) where T : class
+        {
+            this.context.Remove(entity);
+        }
+
+        public async Task<bool> SaveAll()
+        {
+            return await this.context.SaveChangesAsync() > 0;
         }
     }
 }
