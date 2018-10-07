@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using pwsAPI.Data;
+using pwsAPI.Dtos;
 using pwsAPI.Models;
 
 namespace pwsAPI.Controllers
@@ -56,15 +57,16 @@ namespace pwsAPI.Controllers
 
         [Authorize]
         [HttpPut]
-        public async Task<IActionResult> UpdatePoster(Poster poster)
+        public async Task<IActionResult> UpdatePoster([FromBody]PosterForUpdateDto posterForUpdateDto)
         {
-            var posterInRepo = await this.repo.GetPoster(poster.Id);
-            mapper.Map(poster, posterInRepo);
+            Poster posterInRepo = await this.repo.GetPoster(posterForUpdateDto.Id);
 
+            mapper.Map(posterForUpdateDto, posterInRepo);
+            
             if (await this.repo.SaveAll())
                 return Ok();
 
-            throw new Exception($"Błąd aktualizacji plakatu o id: {poster.Id}");
+            return NoContent();
         }
 
         [Authorize]
@@ -75,9 +77,9 @@ namespace pwsAPI.Controllers
             this.repo.Delete(posterInRepo);
 
             if (await this.repo.SaveAll())
-                return NoContent();
+                return Ok();
 
-            throw new Exception($"Błąd usuwania plakatu o id: {id}");
+            return NoContent();
         }
     }
 }

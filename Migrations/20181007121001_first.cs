@@ -14,10 +14,10 @@ namespace pwsAPI.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(maxLength: 200, nullable: false),
+                    Description = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     HappensAt = table.Column<DateTime>(nullable: false),
-                    PosterPhotoUrl = table.Column<string>(nullable: false)
+                    PosterPhotoUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

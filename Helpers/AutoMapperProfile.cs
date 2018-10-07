@@ -10,6 +10,8 @@ namespace pwsAPI.Helpers
         {
             CreateMap<User, UserDto>();
             CreateMap<UserDto, User>();
+            CreateMap<Poster, PosterForUpdateDto>();
+            CreateMap<PosterForUpdateDto, Poster>();
         }
     }
 }

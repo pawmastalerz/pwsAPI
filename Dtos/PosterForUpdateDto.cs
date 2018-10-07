@@ -1,8 +1,8 @@
 using System;
 
-namespace pwsAPI.Models
+namespace pwsAPI.Dtos
 {
-    public class Poster
+    public class PosterForUpdateDto
     {
         public int Id { get; set; }
         public string Description { get; set; }

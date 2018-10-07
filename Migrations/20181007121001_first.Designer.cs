@@ -9,7 +9,7 @@ using pwsAPI.Data;
 namespace pwsAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20181004143850_first")]
+    [Migration("20181007121001_first")]
     partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,14 +26,11 @@ namespace pwsAPI.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(200);
+                    b.Property<string>("Description");
 
                     b.Property<DateTime>("HappensAt");
 
-                    b.Property<string>("PosterPhotoUrl")
-                        .IsRequired();
+                    b.Property<string>("PosterPhotoUrl");
 
                     b.HasKey("Id");
 
