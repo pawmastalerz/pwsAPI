@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using pwsAPI.Data;
 using pwsAPI.Dtos;
@@ -17,11 +20,38 @@ namespace pwsAPI.Controllers
     {
         private readonly IPosterRepository repo;
         private readonly IMapper mapper;
+        private readonly IHostingEnvironment hostingEnvironment;
 
-        public PostersController(IPosterRepository repo, IMapper mapper)
+        public PostersController(IPosterRepository repo, IMapper mapper, IHostingEnvironment hostingEnvironment)
         {
             this.mapper = mapper;
             this.repo = repo;
+            this.hostingEnvironment = hostingEnvironment;
+        }
+
+        [Authorize]
+        [HttpPost("{upload}")]
+        [DisableRequestSizeLimit]
+        public ActionResult UploadPoster()
+        {
+            var file = Request.Form.Files[0];
+            string folderName = "Posters";
+            string webRootPath = this.hostingEnvironment.WebRootPath;
+            string newPath = Path.Combine(webRootPath, folderName);
+            if (!Directory.Exists(newPath))
+            {
+                Directory.CreateDirectory(newPath);
+            }
+            if (file.Length > 0)
+            {
+                string fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                string fullPath = Path.Combine(newPath, fileName);
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+            }
+            return Ok();
         }
 
         [Authorize]
@@ -62,7 +92,7 @@ namespace pwsAPI.Controllers
             Poster posterInRepo = await this.repo.GetPoster(posterForUpdateDto.Id);
 
             mapper.Map(posterForUpdateDto, posterInRepo);
-            
+
             if (await this.repo.SaveAll())
                 return Ok();
 
