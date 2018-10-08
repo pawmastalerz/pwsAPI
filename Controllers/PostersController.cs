@@ -30,7 +30,7 @@ namespace pwsAPI.Controllers
         }
 
         [Authorize]
-        [HttpPost("{upload}")]
+        [HttpPost("upload")]
         [DisableRequestSizeLimit]
         public ActionResult UploadPoster()
         {
