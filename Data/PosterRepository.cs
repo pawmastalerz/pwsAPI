@@ -32,7 +32,7 @@ namespace pwsAPI.Data
         public async Task<List<Poster>> GetAllPosters()
         {
             return await this.context.Posters
-                .FromSql("SELECT * FROM pws.Posters ORDER BY HappensAt DESC")
+                .FromSql("SELECT * FROM pws.Posters")
                 .ToListAsync();
         }
 
