@@ -15,6 +15,13 @@ namespace pwsAPI.Data
             this.context = context;
         }
 
+        public bool CreatePoster(Poster poster)
+        {
+            this.context.Posters.Add(poster);
+            this.context.SaveChanges();
+            return true;
+        }
+
         public async Task<Poster> GetPoster(int id)
         {
             var posterToReturn = await this.context.Posters
@@ -45,5 +52,6 @@ namespace pwsAPI.Data
         {
             return await this.context.SaveChangesAsync() > 0;
         }
+
     }
 }

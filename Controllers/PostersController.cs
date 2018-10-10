@@ -30,11 +30,17 @@ namespace pwsAPI.Controllers
         }
 
         [Authorize]
-        [HttpPost("upload")]
-        [DisableRequestSizeLimit]
-        public ActionResult UploadPoster()
+        [HttpPost("create")]
+        public IActionResult CreatePoster()
         {
+            var description = Request.Form["description"];
+            var happensAt = Request.Form["happensAt"];
             var file = Request.Form.Files[0];
+
+            var posterToSave = new Poster();
+            posterToSave.Description = description;
+            posterToSave.HappensAt = DateTime.Parse(happensAt);
+
             string folderName = "Posters";
             string webRootPath = this.hostingEnvironment.WebRootPath;
             string newPath = Path.Combine(webRootPath, folderName);
@@ -50,7 +56,11 @@ namespace pwsAPI.Controllers
                 {
                     file.CopyTo(stream);
                 }
+                posterToSave.PosterPhotoUrl = fullPath;
             }
+
+            this.repo.CreatePoster(posterToSave);
+
             return Ok();
         }
 

@@ -6,6 +6,7 @@ namespace pwsAPI.Data
 {
     public interface IPosterRepository
     {
+        bool CreatePoster(Poster poster);
         Task<Poster> GetPoster(int id);
         Task<List<Poster>> GetNewsPosters();
         Task<List<Poster>> GetAllPosters();

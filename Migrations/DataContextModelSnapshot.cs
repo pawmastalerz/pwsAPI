@@ -22,8 +22,6 @@ namespace pwsAPI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreatedAt");
-
                     b.Property<string>("Description");
 
                     b.Property<DateTime>("HappensAt");
