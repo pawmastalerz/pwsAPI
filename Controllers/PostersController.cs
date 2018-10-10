@@ -41,7 +41,7 @@ namespace pwsAPI.Controllers
             posterToSave.Description = description;
             posterToSave.HappensAt = DateTime.Parse(happensAt);
 
-            string folderName = "Posters";
+            string folderName = "assets/posters";
             string webRootPath = this.hostingEnvironment.WebRootPath;
             string newPath = Path.Combine(webRootPath, folderName);
             if (!Directory.Exists(newPath))
@@ -56,7 +56,7 @@ namespace pwsAPI.Controllers
                 {
                     file.CopyTo(stream);
                 }
-                posterToSave.PosterPhotoUrl = fullPath;
+                posterToSave.PosterPhotoUrl = folderName + '/' + fileName;
             }
 
             this.repo.CreatePoster(posterToSave);
