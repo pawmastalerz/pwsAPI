@@ -98,6 +98,8 @@ namespace pwsAPI
                 app.UseHsts();
             }
 
+            app.UseStaticFiles();
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
