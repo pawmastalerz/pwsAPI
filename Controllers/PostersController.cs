@@ -31,15 +31,19 @@ namespace pwsAPI.Controllers
 
         [Authorize]
         [HttpPost("create")]
-        public IActionResult CreatePoster()
+        public ActionResult CreatePoster()
         {
             var description = Request.Form["description"];
             var happensAt = Request.Form["happensAt"];
+            var visible = Request.Form["visible"];
             var file = Request.Form.Files[0];
 
             var posterToSave = new Poster();
             posterToSave.Description = description;
             posterToSave.HappensAt = DateTime.Parse(happensAt);
+            if (visible == true || visible == 1 | visible == "1")
+                posterToSave.Visible = 1;
+            else posterToSave.Visible = 0;
 
             string folderName = "posters";
             string webRootPath = this.hostingEnvironment.WebRootPath;
