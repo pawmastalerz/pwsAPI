@@ -54,7 +54,8 @@ namespace pwsAPI.Controllers
             }
             if (file.Length > 0)
             {
-                string fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                string fileName = DateTime.Now.Ticks.ToString();
+                fileName += ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                 string fullPath = Path.Combine(newPath, fileName);
                 using (var stream = new FileStream(fullPath, FileMode.Create))
                 {
