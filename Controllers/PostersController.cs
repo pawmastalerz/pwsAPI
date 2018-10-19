@@ -61,7 +61,7 @@ namespace pwsAPI.Controllers
                 {
                     file.CopyTo(stream);
                 }
-                posterToSave.PosterPhotoUrl = "http://localhost:5000/posters/" + fileName;
+                posterToSave.PosterPhotoUrl = folderName + '\\' + fileName;
             }
 
             this.repo.CreatePoster(posterToSave);
@@ -119,6 +119,7 @@ namespace pwsAPI.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var posterInRepo = await this.repo.GetPoster(id);
+            this.repo.DeleteFile(posterInRepo);
             this.repo.Delete(posterInRepo);
 
             if (await this.repo.SaveAll())

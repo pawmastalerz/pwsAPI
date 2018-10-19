@@ -11,6 +11,7 @@ namespace pwsAPI.Data
         Task<List<Poster>> GetNewsPosters();
         Task<List<Poster>> GetAllPosters();
         void Delete<T>(T entity) where T : class;
+        void DeleteFile(Poster poster);
         Task<bool> SaveAll();
     }
 }
