@@ -50,7 +50,7 @@ namespace pwsAPI.Controllers
                 var posterToSave = new Poster();
                 posterToSave.Description = description;
                 posterToSave.HappensAt = DateTime.Parse(happensAt);
-                if (visible == "true")
+                if (visible == "Widoczny")
                     posterToSave.Visible = 1;
                 else posterToSave.Visible = 0;
 
