@@ -38,35 +38,48 @@ namespace pwsAPI.Controllers
             var visible = Request.Form["visible"];
             var file = Request.Form.Files[0];
 
-            var posterToSave = new Poster();
-            posterToSave.Description = description;
-            posterToSave.HappensAt = DateTime.Parse(happensAt);
-            if (visible == "true")
-                posterToSave.Visible = 1;
-            else posterToSave.Visible = 0;
+            if
+            (
+                (file.ContentType.ToLower() != "image/jpg" ||
+                file.ContentType.ToLower() != "image/pjpeg" ||
+                file.ContentType.ToLower() != "image/jpeg") &&
+                (Path.GetExtension(file.FileName).ToLower() != ".jpg" ||
+                Path.GetExtension(file.FileName).ToLower() != ".jpeg")
+            )
+            {
+                var posterToSave = new Poster();
+                posterToSave.Description = description;
+                posterToSave.HappensAt = DateTime.Parse(happensAt);
+                if (visible == "true")
+                    posterToSave.Visible = 1;
+                else posterToSave.Visible = 0;
 
-            string folderName = "posters";
-            string webRootPath = this.hostingEnvironment.WebRootPath;
-            string newPath = Path.Combine(webRootPath, folderName);
-            if (!Directory.Exists(newPath))
-            {
-                Directory.CreateDirectory(newPath);
-            }
-            if (file.Length > 0)
-            {
-                string fileName = DateTime.Now.Ticks.ToString();
-                fileName += ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                string fullPath = Path.Combine(newPath, fileName);
-                using (var stream = new FileStream(fullPath, FileMode.Create))
+                string folderName = "posters";
+                string webRootPath = this.hostingEnvironment.WebRootPath;
+                string newPath = Path.Combine(webRootPath, folderName);
+                if (!Directory.Exists(newPath))
                 {
-                    file.CopyTo(stream);
+                    Directory.CreateDirectory(newPath);
                 }
-                posterToSave.PosterPhotoUrl = folderName + '\\' + fileName;
+                if (file.Length > 0)
+                {
+                    string fileName = DateTime.Now.Ticks.ToString();
+                    fileName += ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    string fullPath = Path.Combine(newPath, fileName);
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                    posterToSave.PosterPhotoUrl = folderName + '\\' + fileName;
+                }
+
+                this.repo.CreatePoster(posterToSave);
+
+                return Ok();
             }
 
-            this.repo.CreatePoster(posterToSave);
+            return BadRequest();
 
-            return Ok();
         }
 
         [Authorize]
