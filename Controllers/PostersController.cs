@@ -114,10 +114,61 @@ namespace pwsAPI.Controllers
         }
 
         [Authorize]
-        [HttpPut]
-        public async Task<IActionResult> UpdatePoster([FromBody]PosterForUpdateDto posterForUpdateDto)
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdatePoster()
         {
-            Poster posterInRepo = await this.repo.GetPoster(posterForUpdateDto.Id);
+            var id = Request.Form["id"];
+            var description = Request.Form["description"];
+            var happensAt = Request.Form["happensAt"];
+            var visible = Request.Form["visible"];
+
+            Poster posterInRepo = await this.repo.GetPoster(Convert.ToInt16(id));
+            PosterForUpdateDto posterForUpdateDto = new PosterForUpdateDto();
+            posterForUpdateDto.Id = Convert.ToInt16(id);
+            posterForUpdateDto.Description = description;
+            posterForUpdateDto.HappensAt = Convert.ToDateTime(happensAt);
+            if (visible == "Widoczny")
+                posterForUpdateDto.Visible = 1;
+            else posterForUpdateDto.Visible = 0;
+
+            if (Request.Form.Files.Count > 0)
+            {
+                var file = Request.Form.Files[0];
+                if
+                (
+                    (file.ContentType.ToLower() != "image/jpg" ||
+                    file.ContentType.ToLower() != "image/pjpeg" ||
+                    file.ContentType.ToLower() != "image/jpeg") &&
+                    (Path.GetExtension(file.FileName).ToLower() != ".jpg" ||
+                    Path.GetExtension(file.FileName).ToLower() != ".jpeg")
+                )
+                {
+                    string folderName = "posters";
+                    string webRootPath = this.hostingEnvironment.WebRootPath;
+                    string newPath = Path.Combine(webRootPath, folderName);
+                    if (!Directory.Exists(newPath))
+                    {
+                        return BadRequest();
+                    }
+                    if (file.Length > 0)
+                    {
+                        string fileName = DateTime.Now.Ticks.ToString();
+                        fileName += ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                        string fullPath = Path.Combine(newPath, fileName);
+                        using (var stream = new FileStream(fullPath, FileMode.Create))
+                        {
+                            file.CopyTo(stream);
+                        }
+                        this.repo.DeleteFile(posterInRepo);
+                        posterForUpdateDto.PosterPhotoUrl = folderName + '\\' + fileName;
+
+                    }
+                }
+            }
+            else
+            {
+                posterForUpdateDto.PosterPhotoUrl = posterInRepo.PosterPhotoUrl;
+            }
 
             mapper.Map(posterForUpdateDto, posterInRepo);
 
