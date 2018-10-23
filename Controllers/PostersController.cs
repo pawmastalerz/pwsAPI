@@ -176,7 +176,7 @@ namespace pwsAPI.Controllers
 
         [Authorize]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeletePoster(int id)
         {
             var posterInRepo = await this.repo.GetPoster(id);
             this.repo.DeleteFile(posterInRepo);
