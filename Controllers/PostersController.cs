@@ -74,12 +74,9 @@ namespace pwsAPI.Controllers
                 }
 
                 this.repo.CreatePoster(posterToSave);
-
                 return Ok();
             }
-
             return BadRequest();
-
         }
 
         [Authorize]
@@ -98,7 +95,7 @@ namespace pwsAPI.Controllers
             if (postersToReturn != null)
                 return Ok(postersToReturn);
 
-            throw new Exception($"Błąd pobierania plakatów do aktualności");
+            return BadRequest();
         }
 
         [Authorize]
@@ -110,7 +107,7 @@ namespace pwsAPI.Controllers
             if (postersToReturn != null)
                 return Ok(postersToReturn);
 
-            throw new Exception($"Błąd pobierania listy plakatów");
+            return BadRequest();
         }
 
         [Authorize]
@@ -161,7 +158,6 @@ namespace pwsAPI.Controllers
                         }
                         this.repo.DeleteFile(posterInRepo);
                         posterForUpdateDto.PosterPhotoUrl = folderName + '\\' + fileName;
-
                     }
                 }
             }
@@ -175,7 +171,7 @@ namespace pwsAPI.Controllers
             if (await this.repo.SaveAll())
                 return Ok();
 
-            return NoContent();
+            return BadRequest();
         }
 
         [Authorize]
