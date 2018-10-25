@@ -46,7 +46,7 @@ namespace pwsAPI.Data
         public async Task<List<Thought>> GetNewsThoughts()
         {
             return await this.context.Thoughts
-                .FromSql("SELECT * FROM pws.Thoughts WHERE Visible = 1")
+                .FromSql("SELECT * FROM pws.Thoughts WHERE Accepted = 1")
                 .ToListAsync();
         }
 

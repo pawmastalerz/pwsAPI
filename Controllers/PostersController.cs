@@ -35,7 +35,7 @@ namespace pwsAPI.Controllers
         {
             var description = Request.Form["description"];
             var happensAt = Request.Form["happensAt"];
-            var visible = Request.Form["visible"];
+            var accepted = Request.Form["accepted"];
             var file = Request.Form.Files[0];
 
             if
@@ -50,9 +50,9 @@ namespace pwsAPI.Controllers
                 var posterToSave = new Poster();
                 posterToSave.Description = description;
                 posterToSave.HappensAt = DateTime.Parse(happensAt);
-                if (visible == "Widoczny")
-                    posterToSave.Visible = 1;
-                else posterToSave.Visible = 0;
+                if (accepted == "Przyjęto")
+                    posterToSave.Accepted = 1;
+                else posterToSave.Accepted = 0;
 
                 string folderName = "posters";
                 string webRootPath = this.hostingEnvironment.WebRootPath;
@@ -117,16 +117,16 @@ namespace pwsAPI.Controllers
             var id = Request.Form["id"];
             var description = Request.Form["description"];
             var happensAt = Request.Form["happensAt"];
-            var visible = Request.Form["visible"];
+            var accepted = Request.Form["accepted"];
 
             Poster posterInRepo = await this.repo.GetPoster(Convert.ToInt16(id));
             PosterForUpdateDto posterForUpdateDto = new PosterForUpdateDto();
             posterForUpdateDto.Id = Convert.ToInt16(id);
             posterForUpdateDto.Description = description;
             posterForUpdateDto.HappensAt = Convert.ToDateTime(happensAt);
-            if (visible == "Widoczny")
-                posterForUpdateDto.Visible = 1;
-            else posterForUpdateDto.Visible = 0;
+            if (accepted == "Przyjęto")
+                posterForUpdateDto.Accepted = 1;
+            else posterForUpdateDto.Accepted = 0;
 
             if (Request.Form.Files.Count > 0)
             {

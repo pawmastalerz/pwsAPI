@@ -48,9 +48,9 @@ namespace pwsAPI.Controllers
             {
                 var thoughtToSave = new Thought();
                 thoughtToSave.Description = description;
-                if (visible == "Widoczny")
-                    thoughtToSave.Visible = 1;
-                else thoughtToSave.Visible = 0;
+                if (visible == "Przyjęto")
+                    thoughtToSave.Accepted = 1;
+                else thoughtToSave.Accepted = 0;
 
                 string folderName = "thoughts";
                 string webRootPath = this.hostingEnvironment.WebRootPath;
@@ -120,9 +120,9 @@ namespace pwsAPI.Controllers
             ThoughtForUpdateDto thoughtForUpdateDto = new ThoughtForUpdateDto();
             thoughtForUpdateDto.Id = Convert.ToInt16(id);
             thoughtForUpdateDto.Description = description;
-            if (visible == "Widoczny")
-                thoughtForUpdateDto.Visible = 1;
-            else thoughtForUpdateDto.Visible = 0;
+            if (visible == "Przyjęto")
+                thoughtForUpdateDto.Accepted = 1;
+            else thoughtForUpdateDto.Accepted = 0;
 
             if (Request.Form.Files.Count > 0)
             {
