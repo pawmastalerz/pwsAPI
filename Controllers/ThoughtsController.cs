@@ -33,8 +33,9 @@ namespace pwsAPI.Controllers
         [HttpPost("create")]
         public ActionResult CreateThought()
         {
-            var description = Request.Form["description"];
-            var visible = Request.Form["visible"];
+            var quote = Request.Form["quote"];
+            var author = Request.Form["author"];
+            var accepted = Request.Form["accepted"];
             var file = Request.Form.Files[0];
 
             if
@@ -47,8 +48,9 @@ namespace pwsAPI.Controllers
             )
             {
                 var thoughtToSave = new Thought();
-                thoughtToSave.Description = description;
-                if (visible == "Przyjęto")
+                thoughtToSave.Quote = quote;
+                thoughtToSave.Author = author;
+                if (accepted == "Przyjęto")
                     thoughtToSave.Accepted = 1;
                 else thoughtToSave.Accepted = 0;
 
@@ -113,14 +115,16 @@ namespace pwsAPI.Controllers
         public async Task<IActionResult> UpdateThought()
         {
             var id = Request.Form["id"];
-            var description = Request.Form["description"];
-            var visible = Request.Form["visible"];
+            var quote = Request.Form["quote"];
+            var author = Request.Form["author"];
+            var accepted = Request.Form["accepted"];
 
             Thought thoughtInRepo = await this.repo.GetThought(Convert.ToInt16(id));
             ThoughtForUpdateDto thoughtForUpdateDto = new ThoughtForUpdateDto();
             thoughtForUpdateDto.Id = Convert.ToInt16(id);
-            thoughtForUpdateDto.Description = description;
-            if (visible == "Przyjęto")
+            thoughtForUpdateDto.Quote = quote;
+            thoughtForUpdateDto.Author = author;
+            if (accepted == "Przyjęto")
                 thoughtForUpdateDto.Accepted = 1;
             else thoughtForUpdateDto.Accepted = 0;
 

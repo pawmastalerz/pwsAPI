@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pwsAPI.Data;
 
 namespace pwsAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20181026140158_UpdatedThoughtMigration")]
+    partial class UpdatedThoughtMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,6 +45,8 @@ namespace pwsAPI.Migrations
                     b.Property<short>("Accepted");
 
                     b.Property<string>("Author");
+
+                    b.Property<short>("Order");
 
                     b.Property<string>("Quote");
 
