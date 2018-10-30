@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pwsAPI.Data;
 
 namespace pwsAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20181030141735_CreatedEventMigration")]
+    partial class CreatedEventMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,22 +39,6 @@ namespace pwsAPI.Migrations
                     b.HasKey("EventId");
 
                     b.ToTable("Events");
-                });
-
-            modelBuilder.Entity("pwsAPI.Models.EventPhoto", b =>
-                {
-                    b.Property<int>("EventPhotoId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("EventId");
-
-                    b.Property<int>("EventPhotoUrl");
-
-                    b.HasKey("EventPhotoId");
-
-                    b.HasIndex("EventId");
-
-                    b.ToTable("EventPhoto");
                 });
 
             modelBuilder.Entity("pwsAPI.Models.Poster", b =>
@@ -105,14 +91,6 @@ namespace pwsAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("pwsAPI.Models.EventPhoto", b =>
-                {
-                    b.HasOne("pwsAPI.Models.Event", "Event")
-                        .WithMany("EventPhoto")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
