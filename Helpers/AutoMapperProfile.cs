@@ -16,6 +16,12 @@ namespace pwsAPI.Helpers
             
             CreateMap<Poster, PosterForUpdateDto>();
             CreateMap<PosterForUpdateDto, Poster>();
+
+            CreateMap<Event, EventForUpdateDto>();
+            CreateMap<EventForUpdateDto, Event>();
+            
+            CreateMap<EventPhoto, EventPhotoForUpdateDto>();
+            CreateMap<EventPhotoForUpdateDto, EventPhoto>();
         }
     }
 }
