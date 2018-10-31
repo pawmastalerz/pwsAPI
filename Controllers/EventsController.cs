@@ -35,11 +35,13 @@ namespace pwsAPI.Controllers
         {
             var eventName = Request.Form["eventName"];
             var happensAt = Request.Form["happensAt"];
+            var description = Request.Form["description"];
             var signUpLink = Request.Form["signUpLink"];
             var accepted = Request.Form["accepted"];
 
             var eventToSave = new Event();
             eventToSave.EventName = eventName;
+            eventToSave.Description = description;
             eventToSave.HappensAt = DateTime.Parse(happensAt);
             eventToSave.SignUpLink = signUpLink;
             if (accepted == "Przyjęto")
@@ -124,6 +126,7 @@ namespace pwsAPI.Controllers
         {
             var eventId = Request.Form["eventId"];
             var eventName = Request.Form["eventName"];
+            var description = Request.Form["description"];
             var happensAt = Request.Form["happensAt"];
             var signUpLink = Request.Form["signUpLink"];
             var accepted = Request.Form["accepted"];
@@ -132,6 +135,7 @@ namespace pwsAPI.Controllers
             EventForUpdateDto eventForUpdateDto = new EventForUpdateDto();
             eventForUpdateDto.EventId = Convert.ToInt16(eventId);
             eventForUpdateDto.EventName = eventName;
+            eventForUpdateDto.Description = description;
             eventForUpdateDto.HappensAt = Convert.ToDateTime(happensAt);
             if (accepted == "Przyjęto")
                 eventForUpdateDto.Accepted = 1;
